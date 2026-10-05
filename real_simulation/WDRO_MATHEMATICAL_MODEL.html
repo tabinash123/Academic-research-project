@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Mathematical Formulation: Unified WDRO-MPC for Autonomous Longitudinal Control</title>
+    <!-- MathJax 3 Configuration for Publication-Quality Mathematical Typography -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                tags: 'ams'
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: "Latin Modern Roman", "Computer Modern Roman", "Times New Roman", Times, serif;
+            font-size: 16px;
+            line-height: 1.65;
+            color: #111827;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .paper-container {
+            max-width: 880px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 60px 80px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.07);
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+        }
+
+        h1.title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            color: #0f172a;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .abstract-box {
+            background-color: #f8fafc;
+            border-left: 3.5px solid #2563eb;
+            padding: 18px 24px;
+            margin-bottom: 35px;
+            font-size: 14.5px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .abstract-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #1e40af;
+            margin-bottom: 6px;
+        }
+
+        h2 {
+            font-size: 19px;
+            border-bottom: 1.5px solid #0f172a;
+            padding-bottom: 4px;
+            margin-top: 38px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #0f172a;
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 24px;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14.5px;
+        }
+
+        th,
+        td {
+            padding: 9px 12px;
+            text-align: left;
+        }
+
+        th {
+            border-top: 1.5px solid #111;
+            border-bottom: 1.5px solid #111;
+            font-weight: bold;
+            background-color: #fcfcfd;
+        }
+
+        tr:last-child td {
+            border-bottom: 1.5px solid #111;
+        }
+
+        .boxed-program {
+            background-color: #fbfcfe;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 25px 32px;
+            margin: 25px 0;
+        }
+
+        .highlight-box {
+            background-color: #f0fdf4;
+            border-left: 3.5px solid #16a34a;
+            padding: 14px 20px;
+            margin: 20px 0;
+            font-size: 14.5px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .remark-box {
+            background-color: #fffbeb;
+            border-left: 3.5px solid #d97706;
+            padding: 14px 20px;
+            margin: 20px 0;
+            font-size: 14.5px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Download & Export Action Bar */
+        .download-bar {
+            max-width: 880px;
+            margin: 0 auto 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            padding: 12px 20px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+        .doc-badge {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            font-size: 13.5px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-pdf {
+            background-color: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-pdf:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-html {
+            background-color: #f8fafc;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+        }
+
+        .btn-html:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Clean Print / PDF Styling */
+        @media print {
+            body {
+                background: #ffffff !important;
+                padding: 0 !important;
+                font-size: 12pt;
+            }
+
+            .download-bar {
+                display: none !important;
+            }
+
+            .paper-container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .boxed-program,
+            table,
+            .abstract-box,
+            .highlight-box,
+            .remark-box {
+                page-break-inside: avoid;
+            }
+
+            @page {
+                size: A4;
+                margin: 18mm 16mm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Download / Export Actions Toolbar -->
+    <div class="download-bar">
+        <div class="doc-badge">
+            <span class="status-dot"></span>
+            Official Publication Specification (MathJax 3.0 Typography)
+        </div>
+        <div class="btn-group">
+            <button onclick="window.print()" class="btn btn-pdf" title="Export clean publication PDF">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9V2h12v7"></path>
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                    <rect x="6" y="14" width="12" height="8"></rect>
+                </svg>
+                Save as PDF
+            </button>
+            <button onclick="downloadHTMLFile()" class="btn btn-html" title="Download standalone offline HTML file">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download HTML
+            </button>
+        </div>
+    </div>
+
+    <div class="paper-container">
+
+        <h1 class="title">Distributionally Robust Model Predictive Control (WDRO-MPC)</h1>
+        <div class="subtitle">Official Mathematical Specification: Convex Quadratic Dual Program with Distance-Governed
+            Speed Regulation</div>
+
+        <div class="abstract-box">
+            <div class="abstract-title">Model Abstract</div>
+            This document defines the official mathematical program for the Distributionally Robust Model Predictive
+            Control (WDRO-MPC) system governing autonomous longitudinal speed control. By leveraging a nominal reference
+            freezing technique, the controller unifies pedestrian collision avoidance and velocity tracking into a
+            distance-governed reference function $v_{\text{desired}, k}^{(i)}$ that preserves <strong>strict quadratic
+                convexity</strong>. Robustness against pedestrian behavioral uncertainty is enforced via a Kantorovich
+            dual formulation over a Wasserstein ambiguity ball calibrated with empirical residuals.
+        </div>
+
+        <h2>1. System Nomenclature & Indices</h2>
+
+        <h3>Meaning of the Mathematical Indices</h3>
+        <ul>
+            <li>$i \in \{1, 2, \dots, S\}$: Scenario index for historical pedestrian residual vectors $\xi^{(i)}$.</li>
+            <li>$j \in \{1, 2, \dots, S\}$: Paired scenario index representing alternative candidate behaviors evaluated
+                under Wasserstein probability transport.</li>
+            <li>$k \in \{0, 1, \dots, N-1\}$: Discrete time step index within the receding prediction lookahead horizon.
+            </li>
+        </ul>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Physical Interpretation</th>
+                    <th>Standard Value</th>
+                    <th>Units</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>$N$</td>
+                    <td>Prediction horizon length</td>
+                    <td>$20$</td>
+                    <td>steps</td>
+                </tr>
+                <tr>
+                    <td>$T_s$ (or $\Delta t$)</td>
+                    <td>Control sampling period (5 Hz)</td>
+                    <td>$0.2$</td>
+                    <td>$\text{s}$</td>
+                </tr>
+                <tr>
+                    <td>$S$</td>
+                    <td>Number of empirical behavioral residual scenarios</td>
+                    <td>$100$</td>
+                    <td>scenarios</td>
+                </tr>
+                <tr>
+                    <td>$v_{\max}$</td>
+                    <td>Maximum admissible speed limit</td>
+                    <td>$15.0$</td>
+                    <td>$\text{m/s}$</td>
+                </tr>
+                <tr>
+                    <td>$c$</td>
+                    <td>Distance scaling constant (braking sensitivity threshold)</td>
+                    <td>$5.0$</td>
+                    <td>$\text{m}$</td>
+                </tr>
+                <tr>
+                    <td>$w$</td>
+                    <td>Control acceleration effort weight (passenger comfort)</td>
+                    <td>$0.5$</td>
+                    <td>unitless</td>
+                </tr>
+                <tr>
+                    <td>$\varepsilon$</td>
+                    <td>Wasserstein ambiguity ball radius</td>
+                    <td>$0.1$</td>
+                    <td>unitless</td>
+                </tr>
+                <tr>
+                    <td>$\operatorname{dist}(i,j)$</td>
+                    <td>Pairwise ground metric transportation cost matrix ($M_{i,j}$)</td>
+                    <td>Precomputed ($100 \times 100$)</td>
+                    <td>unitless</td>
+                </tr>
+                <tr>
+                    <td>$[a_{\min}, a_{\max}]$</td>
+                    <td>Actuator braking and acceleration limits</td>
+                    <td>$[-5.0, +3.0]$</td>
+                    <td>$\text{m/s}^2$</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. Nominal Reference Freezing & Convexification</h2>
+
+        <p>To prevent non-convex circular dependencies between the vehicle's decision variables and the
+            distance-to-pedestrian calculation, the reference trajectory is parameterized using the <strong>Nominal
+                Trajectory Reference Freezing</strong> principle.</p>
+
+        <h3>Step 1: Vehicle Nominal State Projection</h3>
+        <p>At current time $t_0$, given measured position $x_0$ and measured velocity $v_0$, the car's baseline position
+            is frozen along the horizon:</p>
+        $$x_{\text{frozen}}(k) = x_0 + v_0 \cdot (k \cdot T_s), \quad \forall k \in \{1, \dots, N\}$$
+
+        <h3>Step 2: Pedestrian Scenario Trajectory Rollout</h3>
+        <p>For each empirical behavioral residual $\xi^{(i)}$ ($i = 1, \dots, S$), the predicted pedestrian position
+            sequence is:</p>
+        $$\mathbf{p}_{\text{ped}, k}^{(i)} = \mathbf{p}_{\text{nom}}(k) + \boldsymbol{\xi}^{(i)}(k), \quad \forall k \in
+        \{1, \dots, N\}$$
+
+        <h3>Step 3: Precomputed Encounter Distance $d_k^{(i)}$</h3>
+        <p>The distance between the vehicle and pedestrian at step $k$ under scenario $i$ is evaluated as a static
+            numerical parameter:</p>
+        $$d_k^{(i)} = \left\| \mathbf{p}_{\text{vehicle, frozen}}(k) - \mathbf{p}_{\text{ped}, k}^{(i)} \right\|_2$$
+
+        <h3>Step 4: Distance-Governed Desired Speed $v_{\text{desired}, k}^{(i)}$</h3>
+        <p>The target velocity sequence is precomputed prior to optimization:</p>
+        $$v_{\text{desired},k}^{(i)} = v_{\max} \cdot \frac{d_k^{(i)}}{d_k^{(i)} + c}$$
+
+        <div class="highlight-box">
+            <strong>Convexity Guarantee:</strong> Since $x_{\text{frozen}}(k)$ and $\mathbf{p}_{\text{ped}, k}^{(i)}$
+            are evaluated from measured state feedback, $d_k^{(i)}$ and $v_{\text{desired}, k}^{(i)}$ are <strong>pure
+                numerical constants</strong>. Consequently, the quadratic tracking loss $(v_k - v_{\text{desired},
+            k}^{(i)})^2$ is <strong>strictly convex</strong> with positive definite Hessian.
+        </div>
+
+        <h2>3. The Official Canonical Optimization Problem</h2>
+
+        <p>At each control cycle, with current measured speed $v_0$, the optimal longitudinal control sequence is
+            computed by solving the following convex program:</p>
+
+        <div class="boxed-program">
+            $$\begin{aligned}
+            \min_{\substack{\mathbf{a} \in \mathbb{R}^N, \\ \mathbf{s} \in \mathbb{R}^S, \\ \lambda \ge 0}} \quad &
+            \frac{1}{S} \sum_{i=1}^{S} s_i + \varepsilon \lambda
+            \end{aligned}$$
+
+            $$\text{subject to:}$$
+
+            $$\begin{aligned}
+            &\textbf{1. Dual Wasserstein Robust Constraints:} \\
+            & s_i \ge J(a, \xi^{(j)}) - \lambda \cdot \operatorname{dist}(i,j), \quad \forall\, i, j \in \{1, \dots, S\}
+            \\[10pt]
+            &\textbf{where the scenario cost is: } \\
+            & J(a, \xi^{(j)}) = \sum_{k=0}^{N-1} \left[ \Big(v_k - v_{\text{desired},k}^{(j)}\Big)^2 + w \cdot a_k^2
+            \right] \\[10pt]
+            &\textbf{2. Vehicle Speed Kinematic Dynamics:} \\
+            & v_{k+1} = v_k + a_k \cdot T_s, \quad \forall k \in \{0, 1, \dots, N-1\} \\[8pt]
+            &\textbf{3. Actuator Bounds:} \\
+            & a_{\min} \le a_k \le a_{\max}, \quad \forall k \in \{0, 1, \dots, N-1\} \\[8pt]
+            &\textbf{4. Speed Bounds:} \\
+            & 0 \le v_k \le v_{\max}, \quad \forall k \in \{0, 1, \dots, N\} \\[8pt]
+            &\textbf{5. Dual Variable Non-Negativity:} \\
+            & \lambda \ge 0
+            \end{aligned}$$
+        </div>
+
+        <h2>4. Theoretical Justification & Receding Horizon Feedback</h2>
+
+        <div class="remark-box">
+            <strong>Error Suppression via Receding Horizon:</strong>
+            Although $x_{\text{frozen}}$ assumes constant velocity across the $4.0\text{ s}$ horizon, the controller
+            operates in a closed loop where only the initial command $a_0^*$ is executed for $\Delta t = 0.2\text{ s}$.
+            The open-loop position error introduced during this single sampling step is bounded by:
+            $$\Delta x_{\text{error}} \le \frac{1}{2} |a_{\max}| (\Delta t)^2 = \frac{1}{2} (5.0) (0.2)^2 = 0.10\text{
+            m}$$
+            At the subsequent step, fresh sensor measurements $(x_1, v_1)$ initialize a new nominal rollout,
+            continuously suppressing reference drift while preserving millisecond Quadratic Program (QP) solve times.
+        </div>
+
+        <h2>5. Receding Horizon Execution Law</h2>
+        <p>Let $\mathbf{a}^* = (a_0^*, a_1^*, \dots, a_{N-1}^*)$ denote the optimal acceleration sequence. The control
+            command dispatched to the physical vehicle actuator is:</p>
+        $$a(t) = a_0^*$$
+        <p>At $t + T_s$, the horizon recedes, fresh snapshot feedback is measured, and the program is resolved.</p>
+
+    </div>
+
+    <script>
+        function downloadHTMLFile() {
+            const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "WDRO_MATHEMATICAL_MODEL.html";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+</body>
+
+</html>
